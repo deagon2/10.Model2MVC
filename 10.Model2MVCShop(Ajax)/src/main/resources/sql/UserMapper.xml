@@ -17,20 +17,24 @@
 		<result property="addr" 				column="addr" 					jdbcType="VARCHAR" />
 		<result property="email" 			column="email" 				jdbcType="NUMERIC"  />
 		<result property="regDate" 		column="reg_date" 			jdbcType="DATE" />
+		<result property="kakaoToken" 			column="KAKAO_TOKEN" 				jdbcType="VARCHAR"  />
+		<result property="kakaoId" 			column="KAKAO_ID" 				jdbcType="VARCHAR"  />
 	</resultMap>
 	
 	<!-- SQL : INSERT -->
 	<insert 	id="addUser"		parameterType="user" >
 	 	INSERT
-		INTO users( user_id , user_name , password , role , ssn, cell_phone, addr, email , reg_date) 
-		VALUES	 (	#{userId} , #{userName} , #{password} , 'user' , #{ssn:VARCHAR} , 
-							#{phone:VARCHAR} , #{addr:VARCHAR} , #{email:VARCHAR} , SYSDATE )
+		INTO users( user_id , user_name , password , role , ssn, cell_phone, addr, email , reg_date
+					,KAKAO_TOKEN, KAKAO_ID ) 
+		VALUES	 (	#{userId} , #{userName} , #{password} , 'user' , #{ssn:VARCHAR} ,  
+					#{phone:VARCHAR} , #{addr:VARCHAR} , #{email:VARCHAR} , SYSDATE ,
+					#{kakaoToken:VARCHAR}, #{kakaoId:VARCHAR} )
 	 </insert>
 	 
 	 <!-- SQL : SELECT ONE -->
 	 <select 	id="getUser"	parameterType="string"	resultMap="userSelectMap">
 		SELECT
-		user_id , user_name , password , role ,  cell_phone ,  addr , email , reg_date 		
+		user_id , user_name , password , role ,  cell_phone ,  addr , email , reg_date , KAKAO_TOKEN, KAKAO_ID		
 		FROM users 
 		WHERE user_id = #{value}
 	 </select>
@@ -94,5 +98,19 @@
 							</where>
 						</if> ) countTable						
 	 </select>
+	 <!--카카오 체크-->
+	 <select id="checkUser" parameterType="map"	resultMap="userSelectMap">
+		SELECT
+		user_id , user_name , password , role ,  cell_phone ,  email , reg_date , 
+		user_id_kakao, user_id_naver
+		FROM users 
+		WHERE kakaoToken = #{kakaotoken}
+	 </select>
+	 
+	 <update	id="updateUserId"	parameterType="user" >
+	   	UPDATE users
+		kakaoToken = #{kakaotoken}
+	   	WHERE user_id = #{userId}
+	 </update>
 	 
 </mapper>

@@ -24,4 +24,7 @@ public interface UserService {
 	// 회원 ID 중복 확인
 	public boolean checkDuplication(String userId) throws Exception;
 	
+	public User kakaocheck(String kakaotoken) throws Exception;
+	
+	public void updateUserId(String userId, String kakaotoken) throws Exception;
 }

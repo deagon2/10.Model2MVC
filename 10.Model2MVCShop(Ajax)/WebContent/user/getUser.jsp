@@ -13,9 +13,78 @@
 	<link rel="stylesheet" href="/css/admin.css" type="text/css">
 	
 	<!-- CDN(Content Delivery Network) 호스트 사용 -->
+	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script type="text/javascript">
 		
+	$(function(){
+		$("#kakaologin").on("click" , function() {
+			loginWithKakao();
+		});
+	});
+	
+	Kakao.init('c1172a908282d12c8eb6283ce9e4baaa');
+    function loginWithKakao() {
+      Kakao.Auth.login({
+        success: function(authObj) {
+            Kakao.API.request({
+              url: '/v2/user/me',
+              success: function(res) {
+            	 kakaocheck(res.id);
+              },
+              fail: function(error) {
+                alert(JSON.stringify(error));
+              }
+            });
+          },
+          fail: function(err) {
+            alert(JSON.stringify(err));
+          }
+      });
+    };
+    
+    function kakaocheck(kakaotoken){
+		
+    	$.ajax( 
+				{
+					url : "/user/json/checkUser/"+kakaotoken,
+					method : "GET" ,
+					dataType : "json" ,
+					headers : {
+						"Accept" : "application/json",
+						"Content-Type" : "application/json"
+					},
+					success : function(JSONData , status) {
+						if(JSONData.userId != null){
+							alert("이미 가입된 계정입니다.");
+						}else{
+							updateUserId(kakaotoken);
+						}
+					}
+				});
+    		}
+    
+    function updateUserId(kakaotoken){
+    	$.ajax( 
+				{
+					url : "/user/json/updateUserId/${user.userId}/"+kakaotoken ,
+					method : "GET" ,
+					dataType : "json" ,
+					headers : {
+						"Accept" : "application/json",
+						"Content-Type" : "application/json"
+					},
+					success : function(JSONData , status) {
+						alert("연동성공");
+						console.log(JSONData);
+						$("#kakaologin").attr("hidden","hidden");
+					}
+				});
+ 	  		 }
+    
+   
+	
+	
 		//==>"수정" "확인"  Event 연결 및 처리
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
@@ -143,6 +212,12 @@
 					<td width="17" height="23"><img src="/images/ct_btnbg01.gif" width="17" height="23"></td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
 						확인
+					</td>
+					<td width="14" height="23"><img src="/images/ct_btnbg03.gif" width="14" height="23"></td>
+					<td width="30"></td>					
+					<td width="17" height="23"><img src="/images/ct_btnbg01.gif" width="17" height="23"></td>
+					<td id ="kakaologin" background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
+						카카오 계정 연동
 					</td>
 					<td width="14" height="23"><img src="/images/ct_btnbg03.gif" width="14" height="23"></td>
 				</tr>

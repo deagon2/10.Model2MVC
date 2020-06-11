@@ -10,7 +10,7 @@ DROP SEQUENCE seq_transaction_tran_no;
 CREATE SEQUENCE seq_product_prod_no		 	INCREMENT BY 1 START WITH 10000;
 CREATE SEQUENCE seq_transaction_tran_no	INCREMENT BY 1 START WITH 10000;
 
-
+	
 CREATE TABLE users ( 
 	user_id 			VARCHAR2(20)	NOT NULL,
 	user_name 	VARCHAR2(50)	NOT NULL,
@@ -21,9 +21,11 @@ CREATE TABLE users (
 	addr 				VARCHAR2(100),
 	email 				VARCHAR2(50),
 	reg_date 		DATE,
+	kakao_id		VARCHAR2(20),
+	kakao_token		VARCHAR2(20)
 	PRIMARY KEY(user_id)
 );
-
+ALTER TABLE users ADD   kakao_token		VARCHAR2(20)
 
 CREATE TABLE product ( 
 	prod_no 						NUMBER 				NOT NULL,

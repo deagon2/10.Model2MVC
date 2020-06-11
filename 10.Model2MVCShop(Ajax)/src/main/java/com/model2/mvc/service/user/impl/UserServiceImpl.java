@@ -63,4 +63,12 @@ public class UserServiceImpl implements UserService{
 		}
 		return result;
 	}
+	
+	public User kakaocheck(String kakaotoken) throws Exception{
+		return userDao.kakaocheck(kakaotoken);
+	}
+	
+	public void updateUserId(String userId, String kakaotoken) throws Exception{
+		userDao.updateUserId(userId, kakaotoken);
+	}
 }

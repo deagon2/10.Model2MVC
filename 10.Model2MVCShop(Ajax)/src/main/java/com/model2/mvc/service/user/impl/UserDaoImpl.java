@@ -1,6 +1,8 @@
 package com.model2.mvc.service.user.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,4 +52,19 @@ public class UserDaoImpl implements UserDao{
 	public int getTotalCount(Search search) throws Exception {
 		return sqlSession.selectOne("UserMapper.getTotalCount", search);
 	}
+	
+	public User kakaocheck(String kakaotoken) throws Exception{
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("kakaotoken", kakaotoken);
+		return sqlSession.selectOne("UserMapper.kakaocheck", map);
+	}
+	
+	public void updateUserId(String userId, String kakaotoken) throws Exception{
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userId", userId);
+		map.put("kakaotoken", kakaotoken);
+		sqlSession.update("UserMapper.updateUserId", map);
+}
+	
+	
 }

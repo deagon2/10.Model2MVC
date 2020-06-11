@@ -53,4 +53,27 @@ public class UserRestController {
 		
 		return dbUser;
 	}
+	//가입확인
+	@RequestMapping( value="json/checkUser/{kakaotoken}", method=RequestMethod.GET)
+	public User kakaocheck(@PathVariable String kakaotoken,
+							HttpSession session) throws Exception{
+		System.out.println("checkUser => "+kakaotoken);
+		User user = userService.kakaocheck(kakaotoken);
+		if(user == null) {
+			user = new User();
+		}
+		
+		return user;
+	}
+	//카카오 계정 연동
+		@RequestMapping( value="json/updateUserId/{userId}/{kakaotoken}", method=RequestMethod.GET)
+		public User updateUserId(@PathVariable String userId,
+								@PathVariable String kakaotoken) throws Exception{
+			System.out.println("updateUserId => "+userId+" : "+kakaotoken);
+
+			userService.updateUserId(userId, kakaotoken);
+			User user = userService.getUser(userId);
+			
+			return user;
+		}
 }
