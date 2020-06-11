@@ -45,7 +45,7 @@ public class UserRestController {
 		System.out.println("/user/json/login : POST");
 		//Business Logic
 		System.out.println("::"+user);
-		User dbUser=userService.getUser(user.getUserId());
+		User dbUser = userService.getUser(user.getUserId());
 		
 		if( user.getPassword().equals(dbUser.getPassword())){
 			session.setAttribute("user", dbUser);
@@ -53,4 +53,30 @@ public class UserRestController {
 		
 		return dbUser;
 	}
+	//카카오 회원가입
+	@RequestMapping( value="json/login/{userId}", method=RequestMethod.GET )
+	public User kakaoUser(	@PathVariable String userId,
+			HttpSession session ) throws Exception{
+		System.out.println("/user/json/login : POST");
+		//Business Logic
+		System.out.println("::"+userId);
+		User dbUser = userService.getUser(userId);
+		System.out.println("dbUser 들어있는값 "+dbUser);
+		
+		session.setAttribute("user", dbUser);
+		
+		return dbUser;
+	}
+	//카카오 정보확인
+		@RequestMapping( value="json/kakaogetUser/{userId}", method=RequestMethod.GET)
+		public User kakaogetUser(@PathVariable String userId,
+								HttpSession session) throws Exception{
+			System.out.println("checkUser => "+userId);
+			User user = userService.kakaogetUser(userId);
+			if(user == null) {
+				user = new User();
+			}
+			
+			return user;
+		}
 }

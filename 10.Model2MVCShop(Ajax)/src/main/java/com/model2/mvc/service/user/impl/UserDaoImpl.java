@@ -1,6 +1,8 @@
 package com.model2.mvc.service.user.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +51,17 @@ public class UserDaoImpl implements UserDao{
 	// 게시판 Page 처리를 위한 전체 Row(totalCount)  return
 	public int getTotalCount(Search search) throws Exception {
 		return sqlSession.selectOne("UserMapper.getTotalCount", search);
+	}
+	//카카오 회원가입
+	public void kakaoUser(String userId) throws Exception{
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userId", userId);
+		sqlSession.insert("UserMapper.kakaoUser", map);
+	}
+	//카카오 정보가져오기
+	public User kakaogetUser(String userId) throws Exception{
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userId", userId);
+		return sqlSession.selectOne("UserMapper.kakaogetUser", map);
 	}
 }

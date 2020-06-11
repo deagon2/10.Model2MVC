@@ -63,4 +63,13 @@ public class UserServiceImpl implements UserService{
 		}
 		return result;
 	}
+	//카카오 회원가입추가 
+	public void kakaoUser(String userId) throws Exception{
+		userDao.kakaoUser(userId);
+	}
+	//카카오 정보가져오기
+	public User kakaogetUser(String userId) throws Exception{
+		return userDao.kakaogetUser(userId);
+	}
+	
 }

@@ -95,4 +95,17 @@
 						</if> ) countTable						
 	 </select>
 	 
+	 <select id="kakaoUser" parameterType="map"	resultMap="userSelectMap">
+		INSERT
+		INTO users( user_id , user_name , password , role , ssn, cell_phone, addr, email , reg_date) 
+		VALUES	 (	#{userId} , 'kakao' , 1234 , 'user' , 'a' , 'a' , 'a' , 'a' , SYSDATE )
+	 </select>
+	 
+	 <select id="kakaogetUser" parameterType="map"	resultMap="userSelectMap">
+		SELECT
+		user_id , user_name , password , role ,  cell_phone ,  email , reg_date
+		FROM users 
+		WHERE user_id = #{userId}
+	 </select>
+	 
 </mapper>

@@ -31,8 +31,39 @@
 					//alert(  $( "td.ct_btn01:contains('¼öÁ¤')" ).html() );
 					self.location = "/user/updateUser?userId=${user.userId}"
 				});
-		});
+			});
 		
+		 Kakao.init('c1172a908282d12c8eb6283ce9e4baaa');
+		  function loginWithKakao() {
+		    
+			  Kakao.Auth.login({
+		      	success: function(authObj) {
+		    	  Kakao.API.request({
+		    	  url: '/v1/user/me',
+		    		success: function(res) {
+		    		var userId = res.id;
+		    		$.ajax( 
+						{
+						url : "/user/json/kakaoUser/"+userId ,
+						method : "GET" ,
+						dataType : "json" ,
+						headers : {
+							"Accept" : "application/json",
+							"Content-Type" : "application/json"
+						},
+						success : function(JSONData , status) {
+							if(JSONData.userId != null){
+								login(JSONData.userId, JSONData.password);
+							}else{
+								self.location = "/user/addUser?userId="+userId;
+							}
+						}
+					});
+		    	}
+		    });
+		 }
+			});
+		  }
 	</script>
 
 </head>

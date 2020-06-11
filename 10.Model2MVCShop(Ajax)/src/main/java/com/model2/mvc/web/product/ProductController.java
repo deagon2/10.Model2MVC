@@ -1,5 +1,7 @@
 package com.model2.mvc.web.product;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
@@ -56,12 +59,41 @@ public class ProductController {
 	//@RequestMapping("/addProduct.do")
 	//public String addUser( @ModelAttribute("product") Product product) throws Exception {
 	@RequestMapping(value="addProduct", method=RequestMethod.POST)
-	public String addProduct(@ModelAttribute("product")Product product) throws Exception{
-		System.out.println("/addProduct.do");
-		//Business Logic
+	public String addProduct(@RequestParam(value="file", required = false) MultipartFile mf ,Product product, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		
+		System.out.println("/product/addProduct : POST");
+		
+		if(mf != null) {
+			System.out.println("fileName : "+ mf);
+			System.out.println(product);
+			
+			String savePath = "C:\\Users\\deago\\git\\10.Model2MVC\\10.Model2MVCShop(Ajax)\\WebContent\\images\\uploadFiles\\";
+			
+			String originalFileName = mf.getOriginalFilename();
+			long fileSize = mf.getSize();
+			String safeFile = savePath+originalFileName;
+			
+			System.out.println("originalFileName : "+originalFileName);
+			System.out.println("fileSize : "+fileSize);
+			System.out.println("safeFile : "+safeFile);
+			
+				
+			try {
+				mf.transferTo(new File(safeFile));
+			} catch(IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			product.setFileName(originalFileName);
+		
+		}
 		productService.addProduct(product);
 		
-		return "forward:/product/addProduct.jsp";
+		
+		
+		return "/product/getProduct.jsp";
 	}
 	
 	//@RequestMapping("/listProduct.do")
