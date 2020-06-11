@@ -54,9 +54,8 @@ public class UserDaoImpl implements UserDao{
 	}
 	
 	public User kakaocheck(String kakaotoken) throws Exception{
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("kakaotoken", kakaotoken);
-		return sqlSession.selectOne("UserMapper.kakaocheck", map);
+		System.out.println("여기까지오는건가요??");
+		return sqlSession.selectOne("UserMapper.kakaocheck", kakaotoken);
 	}
 	
 	public void updateUserId(String userId, String kakaotoken) throws Exception{

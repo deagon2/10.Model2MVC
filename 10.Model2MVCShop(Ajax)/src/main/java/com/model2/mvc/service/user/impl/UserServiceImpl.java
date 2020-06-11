@@ -65,6 +65,7 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	public User kakaocheck(String kakaotoken) throws Exception{
+		System.out.println("여기까지들어왔나?");
 		return userDao.kakaocheck(kakaotoken);
 	}
 	

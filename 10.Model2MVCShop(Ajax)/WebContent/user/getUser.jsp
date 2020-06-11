@@ -30,7 +30,8 @@
             Kakao.API.request({
               url: '/v2/user/me',
               success: function(res) {
-            	 kakaocheck(res.id);
+            	  alert(JSON.stringify(res));
+            	  kakaocheck(res.id);
               },
               fail: function(error) {
                 alert(JSON.stringify(error));
@@ -47,7 +48,7 @@
 		
     	$.ajax( 
 				{
-					url : "/user/json/checkUser/"+kakaotoken,
+					url : "/user/json/kakaocheck/"+kakaotoken,
 					method : "GET" ,
 					dataType : "json" ,
 					headers : {
@@ -58,6 +59,7 @@
 						if(JSONData.userId != null){
 							alert("이미 가입된 계정입니다.");
 						}else{
+							alert("연동시작");
 							updateUserId(kakaotoken);
 						}
 					}
@@ -65,6 +67,7 @@
     		}
     
     function updateUserId(kakaotoken){
+    	alert(JSON.stringify(kakaotoken));
     	$.ajax( 
 				{
 					url : "/user/json/updateUserId/${user.userId}/"+kakaotoken ,

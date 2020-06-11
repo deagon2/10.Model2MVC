@@ -99,17 +99,17 @@
 						</if> ) countTable						
 	 </select>
 	 <!--카카오 체크-->
-	 <select id="checkUser" parameterType="map"	resultMap="userSelectMap">
+	 <select id="kakaocheck" parameterType="map"	resultMap="userSelectMap">
 		SELECT
 		user_id , user_name , password , role ,  cell_phone ,  email , reg_date , 
-		user_id_kakao, user_id_naver
+		KAKAO_TOKEN, KAKAO_ID
 		FROM users 
-		WHERE kakaoToken = #{kakaotoken}
+		WHERE KAKAO_TOKEN = #{kakaotoken}
 	 </select>
 	 
 	 <update	id="updateUserId"	parameterType="user" >
 	   	UPDATE users
-		kakaoToken = #{kakaotoken}
+	   	SET	KAKAO_TOKEN = #{kakaotoken}
 	   	WHERE user_id = #{userId}
 	 </update>
 	 

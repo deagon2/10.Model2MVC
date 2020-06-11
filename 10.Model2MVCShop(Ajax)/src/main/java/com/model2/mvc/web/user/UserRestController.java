@@ -54,10 +54,10 @@ public class UserRestController {
 		return dbUser;
 	}
 	//가입확인
-	@RequestMapping( value="json/checkUser/{kakaotoken}", method=RequestMethod.GET)
+	@RequestMapping( value="json/kakaocheck/{kakaotoken}", method=RequestMethod.GET)
 	public User kakaocheck(@PathVariable String kakaotoken,
 							HttpSession session) throws Exception{
-		System.out.println("checkUser => "+kakaotoken);
+		System.out.println("kakaocheck => "+kakaotoken);
 		User user = userService.kakaocheck(kakaotoken);
 		if(user == null) {
 			user = new User();
