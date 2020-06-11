@@ -41,7 +41,7 @@
 				}
 			});
 		};
-
+/* https://accounts.kakao.com/ ·Î±×¾Æ¿ô */
 		function kakaocheck(res) {
 			var kakaotoken = res.id;
 			alert(res.id);
