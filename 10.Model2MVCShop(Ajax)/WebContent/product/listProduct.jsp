@@ -35,10 +35,10 @@ function fncGetList(currentPage) {
 				var prodName=$(this).data('prodname');
 				
 				if('${param.menu}'=='manage'){
-					self.location ="/product/updateProduct?prodNo="+prodNo+"&menu=${param.menu}";
-					
-
-				}else if('${param.menu}'=='search' && proTranCode=='0'){
+					url	=  "<a href='/product/updateProduct?prodNo="+prodNo+"'>[수정]</a>"
+				}else if('${param.menu}'=='search' && proTranCode=='0'){	
+					url = "<a href='/purchase/addPurchase?prodNo="+prodNo+"'>[구매]</a>"
+				}
 					$.ajax(
 							{
 								url : "/product/json/getProduct/"+prodNo,
@@ -55,7 +55,8 @@ function fncGetList(currentPage) {
 										+"상품상세정보: "+JSONData.prodDetail+"<br/>"
 										+"제조일자 : "+JSONData.manuDate+"<br/>"
 										+"가격 : "+JSONData.price+"<br/>"
-										+"<a href='/purchase/addPurchase?prodNo="+prodNo+"'>[구매]</a>"
+										+"상품이미지 : <img src=\"../images/uploadFiles/"+JSONData.fileName+"\"><br/>"
+										+url
 										+"</h3>";
 										
 									$("h3").remove();
@@ -63,8 +64,7 @@ function fncGetList(currentPage) {
 								}
 						
 					});
-				}	
-			})
+				});	
 			
 			$("#tranCode").on("click",function(){
 			var prodNo=$(this).data('prodno');
