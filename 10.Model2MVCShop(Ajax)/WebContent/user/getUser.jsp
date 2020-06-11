@@ -57,9 +57,9 @@
 					},
 					success : function(JSONData , status) {
 						if(JSONData.userId != null){
-							alert("이미 가입된 계정입니다.");
+							alert("이미 연동 되어있습니다!");
 						}else{
-							alert("연동시작");
+							alert("연동시작!");
 							updateUserId(kakaotoken);
 						}
 					}
@@ -78,7 +78,7 @@
 						"Content-Type" : "application/json"
 					},
 					success : function(JSONData , status) {
-						alert("연동성공");
+						alert("연동성공!");
 						console.log(JSONData);
 						$("#kakaologin").attr("hidden","hidden");
 					}

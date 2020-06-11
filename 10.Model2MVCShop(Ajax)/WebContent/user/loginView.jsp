@@ -16,7 +16,11 @@
 	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 	<script type="text/javascript">
 	   
-	
+	$(function(){
+		$("#kakaologin").on("click" , function() {
+			loginWithKakao();
+		});
+	});
 		Kakao.init('c1172a908282d12c8eb6283ce9e4baaa');
 		function loginWithKakao() {
 			// 로그인 창을 띄웁니다.
@@ -25,7 +29,7 @@
 					Kakao.API.request({
 						url : '/v2/user/me',
 						success : function(res) {
-							Usercheck(res);
+							kakaocheck(res);
 						},
 						fail : function(error) {
 							alert(JSON.stringify(error));
@@ -38,14 +42,12 @@
 			});
 		};
 
-		//function checkUser(userId2, type, nickname){
-		function Usercheck(res) {
-			var userToken = res.id;
-			var nickname = res.properties.nickname;
-			var email = res.kaccount_email;
+		function kakaocheck(res) {
+			var kakaotoken = res.id;
+			alert(res.id);
 
 			$.ajax({
-				url : "/user/json/checkUser/" + userId2 + "/" + type,
+				url : "/user/json/kakaocheck/" + kakaotoken ,
 				method : "GET",
 				dataType : "json",
 				headers : {
@@ -54,20 +56,18 @@
 				},
 				success : function(JSONData, status) {
 					if (JSONData.userId != null) {
-						login(JSONData.userId, JSONData.password);
+						kakaologin(JSONData.userId, JSONData.password);
 					} else {
-						self.location = "/user/addUser2?userId2=" + userId2
-								+ "&type=" + type + "&userName=" + nickname
-								+ "&email=" + email;
+						alert("카카오연동이안된회원입니다!");
 					}
 				}
 			});
 		}
 
-		function login(id, password) {
+		function kakaologin(id, password) {
 
 			$.ajax({
-				url : "/user/json/login/" + id + "/" + password,
+				url : "/user/json/kakaologin/" + id + "/" + password,
 				method : "GET",
 				dataType : "json",
 				headers : {
@@ -248,7 +248,19 @@
                          <td width="70">
                        			<img src="/images/btn_add.gif" width="70" height="20" border="0">
                          </td>
+                         <td width="10">&nbsp;</td>
+                         <td width="10">
+                       			<img id = "kakaologin" src="/images/kakao_login_medium.png">
+                         </td>
                        </tr>
+                     
+                     </table>
+                      <table width="136" height="20" border="0" cellpadding="0" cellspacing="0">
+                       <tr> 
+                         <td width="56">
+                         카카오간편로그인
+                         		<img src="/images/kakaolink_btn_medium.png" width="50" height="50" border="0"/>
+                         </td>
                      </table>
                  </td>
                  <td width="20" height="20">&nbsp;</td>

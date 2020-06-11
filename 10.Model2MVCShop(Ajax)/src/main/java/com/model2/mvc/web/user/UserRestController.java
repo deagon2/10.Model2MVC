@@ -76,4 +76,21 @@ public class UserRestController {
 			
 			return user;
 		}
+	//카카오로그인	
+		@RequestMapping( value="json/kakaologin/{userId}/{password}", method=RequestMethod.GET )
+		public User kakaologin(	@PathVariable String userId,
+							@PathVariable String password,
+										HttpSession session ) throws Exception{
+		
+			System.out.println("/user/json/kakaologin : GET");
+			//Business Logic
+			System.out.println("::"+userId);
+			User dbUser=userService.getUser(userId);
+			
+			if( password.equals(dbUser.getPassword())){
+				session.setAttribute("user", dbUser);
+			}
+			
+			return dbUser;
+		}
 }
